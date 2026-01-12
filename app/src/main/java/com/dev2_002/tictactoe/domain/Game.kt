@@ -10,9 +10,11 @@ class Game {
     private val board = Array(3) { arrayOfNulls<Player>(3) }
 
     fun makeMove(row: Int, col: Int): Boolean {
+        if (state != GameState.InProgress) return false
         if (board[row][col] != null) return false
         board[row][col] = currentPlayer
         checkWinner()
+        checkDraw()
         currentPlayer = if (currentPlayer == Player.X) Player.O else Player.X
         return true
     }
@@ -36,5 +38,11 @@ class Game {
             state = GameState.Won(board[0][2]!!)
             return
         }
+    }
+
+    private fun checkDraw() {
+        if (state != GameState.InProgress) return
+        val isFull = board.all { row -> row.all { it != null } }
+        if (isFull) state = GameState.Draw
     }
 }
