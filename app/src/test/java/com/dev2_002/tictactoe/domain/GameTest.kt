@@ -171,6 +171,33 @@ class GameTest {
         game.makeMove(2, 1) // X
         game.makeMove(2, 0) // O
         game.makeMove(2, 2) // X - draw
-        // Try to make another move - should fail, but there are no empty cells anyway
+    }
+
+    @Test
+    fun `reset should clear board`() {
+        val game = Game()
+        game.makeMove(0, 0)
+        game.reset()
+        assertEquals(null, game.getCell(0, 0))
+    }
+
+    @Test
+    fun `reset should set current player to X`() {
+        val game = Game()
+        game.makeMove(0, 0)
+        game.reset()
+        assertEquals(Player.X, game.currentPlayer)
+    }
+
+    @Test
+    fun `reset should set state to InProgress`() {
+        val game = Game()
+        game.makeMove(0, 0)
+        game.makeMove(1, 0)
+        game.makeMove(0, 1)
+        game.makeMove(1, 1)
+        game.makeMove(0, 2)
+        game.reset()
+        assertEquals(GameState.InProgress, game.state)
     }
 }
