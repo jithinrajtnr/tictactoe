@@ -9,6 +9,8 @@ class Game {
 
     private val board = Array(3) { arrayOfNulls<Player>(3) }
 
+    fun getCell(row: Int, col: Int): Player? = board[row][col]
+
     fun makeMove(row: Int, col: Int): Boolean {
         if (state != GameState.InProgress) return false
         if (board[row][col] != null) return false
@@ -17,6 +19,16 @@ class Game {
         checkDraw()
         currentPlayer = if (currentPlayer == Player.X) Player.O else Player.X
         return true
+    }
+
+    fun reset() {
+        for (i in 0..2) {
+            for (j in 0..2) {
+                board[i][j] = null
+            }
+        }
+        currentPlayer = Player.X
+        state = GameState.InProgress
     }
 
     private fun checkWinner() {
