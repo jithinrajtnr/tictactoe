@@ -46,4 +46,19 @@ class BoardTest {
         board.clear()
         assertNull(board.getCell(0, 0))
     }
+
+    @Test
+    fun `setCell with O should place O`() {
+        val board = Board()
+        board.setCell(1, 1, Player.O)
+        assertEquals(Player.O, board.getCell(1, 1))
+    }
+
+    @Test
+    fun `partial board should not be full`() {
+        val board = Board()
+        board.setCell(0, 0, Player.X)
+        board.setCell(1, 1, Player.O)
+        assertFalse(board.isFull())
+    }
 }
