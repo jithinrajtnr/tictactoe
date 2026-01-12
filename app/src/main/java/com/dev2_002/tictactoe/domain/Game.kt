@@ -7,14 +7,14 @@ class Game {
     var state: GameState = GameState.InProgress
         private set
 
-    private val board = Array(3) { arrayOfNulls<Player>(3) }
+    private val board = Board()
 
-    fun getCell(row: Int, col: Int): Player? = board[row][col]
+    fun getCell(row: Int, col: Int): Player? = board.getCell(row, col)
 
     fun makeMove(row: Int, col: Int): Boolean {
         if (state != GameState.InProgress) return false
-        if (board[row][col] != null) return false
-        board[row][col] = currentPlayer
+        if (board.getCell(row, col) != null) return false
+        board.setCell(row, col, currentPlayer)
         checkWinner()
         checkDraw()
         currentPlayer = if (currentPlayer == Player.X) Player.O else Player.X
@@ -22,39 +22,42 @@ class Game {
     }
 
     fun reset() {
-        for (i in 0..2) {
-            for (j in 0..2) {
-                board[i][j] = null
-            }
-        }
+        board.clear()
         currentPlayer = Player.X
         state = GameState.InProgress
     }
 
     private fun checkWinner() {
         for (i in 0..2) {
-            if (board[i][0] != null && board[i][0] == board[i][1] && board[i][1] == board[i][2]) {
-                state = GameState.Won(board[i][0]!!)
+            if (board.getCell(i, 0) != null && 
+                board.getCell(i, 0) == board.getCell(i, 1) && 
+                board.getCell(i, 1) == board.getCell(i, 2)) {
+                state = GameState.Won(board.getCell(i, 0)!!)
                 return
             }
-            if (board[0][i] != null && board[0][i] == board[1][i] && board[1][i] == board[2][i]) {
-                state = GameState.Won(board[0][i]!!)
+            if (board.getCell(0, i) != null && 
+                board.getCell(0, i) == board.getCell(1, i) && 
+                board.getCell(1, i) == board.getCell(2, i)) {
+                state = GameState.Won(board.getCell(0, i)!!)
                 return
             }
         }
-        if (board[0][0] != null && board[0][0] == board[1][1] && board[1][1] == board[2][2]) {
-            state = GameState.Won(board[0][0]!!)
+        if (board.getCell(0, 0) != null && 
+            board.getCell(0, 0) == board.getCell(1, 1) && 
+            board.getCell(1, 1) == board.getCell(2, 2)) {
+            state = GameState.Won(board.getCell(0, 0)!!)
             return
         }
-        if (board[0][2] != null && board[0][2] == board[1][1] && board[1][1] == board[2][0]) {
-            state = GameState.Won(board[0][2]!!)
+        if (board.getCell(0, 2) != null && 
+            board.getCell(0, 2) == board.getCell(1, 1) && 
+            board.getCell(1, 1) == board.getCell(2, 0)) {
+            state = GameState.Won(board.getCell(0, 2)!!)
             return
         }
     }
 
     private fun checkDraw() {
         if (state != GameState.InProgress) return
-        val isFull = board.all { row -> row.all { it != null } }
-        if (isFull) state = GameState.Draw
+        if (board.isFull()) state = GameState.Draw
     }
 }
