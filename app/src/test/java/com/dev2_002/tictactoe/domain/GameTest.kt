@@ -1,6 +1,7 @@
 package com.dev2_002.tictactoe.domain
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 /**
@@ -241,5 +242,30 @@ class GameTest {
     fun `getCell should return null for empty cell`() {
         val game = Game()
         assertEquals(null, game.getCell(1, 1))
+    }
+
+    @Test
+    fun `O should win with middle row`() {
+        val game = Game()
+        game.makeMove(0, 0) // X
+        game.makeMove(1, 0) // O
+        game.makeMove(2, 0) // X
+        game.makeMove(1, 1) // O
+        game.makeMove(2, 2) // X
+        game.makeMove(1, 2) // O wins
+        assertEquals(GameState.Won(Player.O), game.state)
+    }
+
+    @Test
+    fun `winner should be identified correctly`() {
+        val game = Game()
+        game.makeMove(0, 0) // X
+        game.makeMove(1, 0) // O
+        game.makeMove(0, 1) // X
+        game.makeMove(1, 1) // O
+        game.makeMove(0, 2) // X wins
+        val state = game.state
+        assertTrue(state is GameState.Won)
+        assertEquals(Player.X, (state as GameState.Won).winner)
     }
 }
