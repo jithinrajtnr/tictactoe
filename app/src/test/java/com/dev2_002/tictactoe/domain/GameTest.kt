@@ -21,4 +21,33 @@ class GameTest {
         val game = Game()
         assertEquals(Player.X, game.currentPlayer)
     }
+
+    // Rule 2: Players alternate
+
+    @Test
+    fun `after X plays it should be O turn`() {
+        val game = Game()
+        game.makeMove(0, 0)
+        assertEquals(Player.O, game.currentPlayer)
+    }
+
+    @Test
+    fun `after O plays it should be X turn`() {
+        val game = Game()
+        game.makeMove(0, 0)
+        game.makeMove(0, 1)
+        assertEquals(Player.X, game.currentPlayer)
+    }
+
+    @Test
+    fun `players alternate correctly for multiple moves`() {
+        val game = Game()
+        assertEquals(Player.X, game.currentPlayer)
+        game.makeMove(0, 0)
+        assertEquals(Player.O, game.currentPlayer)
+        game.makeMove(0, 1)
+        assertEquals(Player.X, game.currentPlayer)
+        game.makeMove(0, 2)
+        assertEquals(Player.O, game.currentPlayer)
+    }
 }
