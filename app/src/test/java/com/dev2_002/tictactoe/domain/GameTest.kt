@@ -200,4 +200,26 @@ class GameTest {
         game.reset()
         assertEquals(GameState.InProgress, game.state)
     }
+
+    @Test
+    fun `three X in bottom row should win`() {
+        val game = Game()
+        game.makeMove(2, 0) // X
+        game.makeMove(0, 0) // O
+        game.makeMove(2, 1) // X
+        game.makeMove(0, 1) // O
+        game.makeMove(2, 2) // X wins
+        assertEquals(GameState.Won(Player.X), game.state)
+    }
+
+    @Test
+    fun `three X in third column should win`() {
+        val game = Game()
+        game.makeMove(0, 2) // X
+        game.makeMove(0, 0) // O
+        game.makeMove(1, 2) // X
+        game.makeMove(1, 0) // O
+        game.makeMove(2, 2) // X wins
+        assertEquals(GameState.Won(Player.X), game.state)
+    }
 }
