@@ -268,4 +268,32 @@ class GameTest {
         assertTrue(state is GameState.Won)
         assertEquals(Player.X, (state as GameState.Won).winner)
     }
+
+    @Test
+    fun `move with negative row should be rejected`() {
+        val game = Game()
+        val result = game.makeMove(-1, 0)
+        assertEquals(false, result)
+    }
+
+    @Test
+    fun `move with row greater than 2 should be rejected`() {
+        val game = Game()
+        val result = game.makeMove(3, 0)
+        assertEquals(false, result)
+    }
+
+    @Test
+    fun `move with negative col should be rejected`() {
+        val game = Game()
+        val result = game.makeMove(0, -1)
+        assertEquals(false, result)
+    }
+
+    @Test
+    fun `move with col greater than 2 should be rejected`() {
+        val game = Game()
+        val result = game.makeMove(0, 3)
+        assertEquals(false, result)
+    }
 }
