@@ -1,5 +1,6 @@
 package com.dev2_002.tictactoe.ui
 
+import androidx.lifecycle.ViewModel
 import com.dev2_002.tictactoe.domain.Game
 import com.dev2_002.tictactoe.domain.GameState
 import com.dev2_002.tictactoe.domain.Player
@@ -7,7 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class GameViewModel {
+class GameViewModel : ViewModel() {
     private val game = Game()
 
     private val _uiState = MutableStateFlow(createUiState())
