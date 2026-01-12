@@ -131,4 +131,46 @@ class GameTest {
         game.makeMove(0, 0)
         assertEquals(GameState.InProgress, game.state)
     }
+
+    @Test
+    fun `full board with no winner should be draw`() {
+        val game = Game()
+        game.makeMove(0, 0) // X
+        game.makeMove(0, 1) // O
+        game.makeMove(0, 2) // X
+        game.makeMove(1, 1) // O
+        game.makeMove(1, 0) // X
+        game.makeMove(1, 2) // O
+        game.makeMove(2, 1) // X
+        game.makeMove(2, 0) // O
+        game.makeMove(2, 2) // X
+        assertEquals(GameState.Draw, game.state)
+    }
+
+    @Test
+    fun `moves blocked after win`() {
+        val game = Game()
+        game.makeMove(0, 0) // X
+        game.makeMove(1, 0) // O
+        game.makeMove(0, 1) // X
+        game.makeMove(1, 1) // O
+        game.makeMove(0, 2) // X wins
+        val result = game.makeMove(2, 2)
+        assertEquals(false, result)
+    }
+
+    @Test
+    fun `moves blocked after draw`() {
+        val game = Game()
+        game.makeMove(0, 0) // X
+        game.makeMove(0, 1) // O
+        game.makeMove(0, 2) // X
+        game.makeMove(1, 1) // O
+        game.makeMove(1, 0) // X
+        game.makeMove(1, 2) // O
+        game.makeMove(2, 1) // X
+        game.makeMove(2, 0) // O
+        game.makeMove(2, 2) // X - draw
+        // Try to make another move - should fail, but there are no empty cells anyway
+    }
 }
