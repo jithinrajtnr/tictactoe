@@ -222,4 +222,24 @@ class GameTest {
         game.makeMove(2, 2) // X wins
         assertEquals(GameState.Won(Player.X), game.state)
     }
+
+    @Test
+    fun `valid move should return true`() {
+        val game = Game()
+        val result = game.makeMove(0, 0)
+        assertEquals(true, result)
+    }
+
+    @Test
+    fun `getCell should return correct player`() {
+        val game = Game()
+        game.makeMove(0, 0)
+        assertEquals(Player.X, game.getCell(0, 0))
+    }
+
+    @Test
+    fun `getCell should return null for empty cell`() {
+        val game = Game()
+        assertEquals(null, game.getCell(1, 1))
+    }
 }
