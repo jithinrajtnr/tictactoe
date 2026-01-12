@@ -81,4 +81,19 @@ class GameViewModelTest {
         viewModel.onCellClick(0, 0)
         assertEquals(playerBefore, viewModel.uiState.value.currentPlayer)
     }
+
+    @Test
+    fun `draw should update game state`() {
+        val viewModel = GameViewModel()
+        viewModel.onCellClick(0, 0) // X
+        viewModel.onCellClick(0, 1) // O
+        viewModel.onCellClick(0, 2) // X
+        viewModel.onCellClick(1, 1) // O
+        viewModel.onCellClick(1, 0) // X
+        viewModel.onCellClick(1, 2) // O
+        viewModel.onCellClick(2, 1) // X
+        viewModel.onCellClick(2, 0) // O
+        viewModel.onCellClick(2, 2) // X
+        assertEquals(GameState.Draw, viewModel.uiState.value.gameState)
+    }
 }
