@@ -12,6 +12,7 @@ class Game {
     fun getCell(row: Int, col: Int): Player? = board.getCell(row, col)
 
     fun makeMove(row: Int, col: Int): Boolean {
+        if (row !in 0..2 || col !in 0..2) return false
         if (state != GameState.InProgress) return false
         if (board.getCell(row, col) != null) return false
         board.setCell(row, col, currentPlayer)
