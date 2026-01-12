@@ -50,4 +50,21 @@ class GameTest {
         game.makeMove(0, 2)
         assertEquals(Player.O, game.currentPlayer)
     }
+
+    @Test
+    fun `move on occupied cell should be rejected`() {
+        val game = Game()
+        game.makeMove(0, 0)
+        val result = game.makeMove(0, 0)
+        assertEquals(false, result)
+    }
+
+    @Test
+    fun `rejected move should not change current player`() {
+        val game = Game()
+        game.makeMove(0, 0)
+        val playerBefore = game.currentPlayer
+        game.makeMove(0, 0)
+        assertEquals(playerBefore, game.currentPlayer)
+    }
 }
