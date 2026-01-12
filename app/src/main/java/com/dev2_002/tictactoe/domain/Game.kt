@@ -28,32 +28,43 @@ class Game {
     }
 
     private fun checkWinner() {
-        for (i in 0..2) {
-            if (board.getCell(i, 0) != null && 
-                board.getCell(i, 0) == board.getCell(i, 1) && 
-                board.getCell(i, 1) == board.getCell(i, 2)) {
-                state = GameState.Won(board.getCell(i, 0)!!)
-                return
-            }
-            if (board.getCell(0, i) != null && 
-                board.getCell(0, i) == board.getCell(1, i) && 
-                board.getCell(1, i) == board.getCell(2, i)) {
-                state = GameState.Won(board.getCell(0, i)!!)
+        checkRows()
+        checkColumns()
+        checkDiagonals()
+    }
+
+    private fun checkRows() {
+        for (row in 0..2) {
+            if (isWinningLine(board.getCell(row, 0), board.getCell(row, 1), board.getCell(row, 2))) {
+                state = GameState.Won(board.getCell(row, 0)!!)
                 return
             }
         }
-        if (board.getCell(0, 0) != null && 
-            board.getCell(0, 0) == board.getCell(1, 1) && 
-            board.getCell(1, 1) == board.getCell(2, 2)) {
+    }
+
+    private fun checkColumns() {
+        if (state != GameState.InProgress) return
+        for (col in 0..2) {
+            if (isWinningLine(board.getCell(0, col), board.getCell(1, col), board.getCell(2, col))) {
+                state = GameState.Won(board.getCell(0, col)!!)
+                return
+            }
+        }
+    }
+
+    private fun checkDiagonals() {
+        if (state != GameState.InProgress) return
+        if (isWinningLine(board.getCell(0, 0), board.getCell(1, 1), board.getCell(2, 2))) {
             state = GameState.Won(board.getCell(0, 0)!!)
             return
         }
-        if (board.getCell(0, 2) != null && 
-            board.getCell(0, 2) == board.getCell(1, 1) && 
-            board.getCell(1, 1) == board.getCell(2, 0)) {
+        if (isWinningLine(board.getCell(0, 2), board.getCell(1, 1), board.getCell(2, 0))) {
             state = GameState.Won(board.getCell(0, 2)!!)
-            return
         }
+    }
+
+    private fun isWinningLine(a: Player?, b: Player?, c: Player?): Boolean {
+        return a != null && a == b && b == c
     }
 
     private fun checkDraw() {
