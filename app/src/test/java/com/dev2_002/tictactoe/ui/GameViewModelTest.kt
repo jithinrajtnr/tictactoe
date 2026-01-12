@@ -52,4 +52,33 @@ class GameViewModelTest {
         viewModel.onCellClick(0, 2) // X wins
         assertEquals(GameState.Won(Player.X), viewModel.uiState.value.gameState)
     }
+
+    @Test
+    fun `reset should set player to X`() {
+        val viewModel = GameViewModel()
+        viewModel.onCellClick(0, 0)
+        viewModel.onReset()
+        assertEquals(Player.X, viewModel.uiState.value.currentPlayer)
+    }
+
+    @Test
+    fun `reset should set state to InProgress`() {
+        val viewModel = GameViewModel()
+        viewModel.onCellClick(0, 0)
+        viewModel.onCellClick(1, 0)
+        viewModel.onCellClick(0, 1)
+        viewModel.onCellClick(1, 1)
+        viewModel.onCellClick(0, 2)
+        viewModel.onReset()
+        assertEquals(GameState.InProgress, viewModel.uiState.value.gameState)
+    }
+
+    @Test
+    fun `clicking occupied cell should not change state`() {
+        val viewModel = GameViewModel()
+        viewModel.onCellClick(0, 0)
+        val playerBefore = viewModel.uiState.value.currentPlayer
+        viewModel.onCellClick(0, 0)
+        assertEquals(playerBefore, viewModel.uiState.value.currentPlayer)
+    }
 }
