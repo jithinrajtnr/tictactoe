@@ -96,4 +96,16 @@ class GameViewModelTest {
         viewModel.onCellClick(2, 2) // X
         assertEquals(GameState.Draw, viewModel.uiState.value.gameState)
     }
+
+    @Test
+    fun `moves blocked after win`() {
+        val viewModel = GameViewModel()
+        viewModel.onCellClick(0, 0) // X
+        viewModel.onCellClick(1, 0) // O
+        viewModel.onCellClick(0, 1) // X
+        viewModel.onCellClick(1, 1) // O
+        viewModel.onCellClick(0, 2) // X wins
+        viewModel.onCellClick(2, 2) // should be blocked
+        assertEquals(null, viewModel.uiState.value.cells[2][2])
+    }
 }
