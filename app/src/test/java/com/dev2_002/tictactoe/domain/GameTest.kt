@@ -67,4 +67,68 @@ class GameTest {
         game.makeMove(0, 0)
         assertEquals(playerBefore, game.currentPlayer)
     }
+
+    @Test
+    fun `three X in top row should win`() {
+        val game = Game()
+        game.makeMove(0, 0) // X
+        game.makeMove(1, 0) // O
+        game.makeMove(0, 1) // X
+        game.makeMove(1, 1) // O
+        game.makeMove(0, 2) // X wins
+        assertEquals(GameState.Won(Player.X), game.state)
+    }
+
+    @Test
+    fun `three O in middle row should win`() {
+        val game = Game()
+        game.makeMove(0, 0) // X
+        game.makeMove(1, 0) // O
+        game.makeMove(0, 1) // X
+        game.makeMove(1, 1) // O
+        game.makeMove(2, 2) // X
+        game.makeMove(1, 2) // O wins row 1
+        assertEquals(GameState.Won(Player.O), game.state)
+    }
+
+    @Test
+    fun `three X in first column should win`() {
+        val game = Game()
+        game.makeMove(0, 0) // X
+        game.makeMove(0, 1) // O
+        game.makeMove(1, 0) // X
+        game.makeMove(1, 1) // O
+        game.makeMove(2, 0) // X wins column 0
+        assertEquals(GameState.Won(Player.X), game.state)
+    }
+
+    @Test
+    fun `three X in diagonal should win`() {
+        val game = Game()
+        game.makeMove(0, 0) // X
+        game.makeMove(0, 1) // O
+        game.makeMove(1, 1) // X
+        game.makeMove(0, 2) // O
+        game.makeMove(2, 2) // X wins diagonal
+        assertEquals(GameState.Won(Player.X), game.state)
+    }
+
+    @Test
+    fun `three O in anti-diagonal should win`() {
+        val game = Game()
+        game.makeMove(1, 0) // X
+        game.makeMove(0, 2) // O
+        game.makeMove(0, 0) // X
+        game.makeMove(1, 1) // O
+        game.makeMove(2, 1) // X
+        game.makeMove(2, 0) // O wins anti-diagonal
+        assertEquals(GameState.Won(Player.O), game.state)
+    }
+
+    @Test
+    fun `game in progress when no winner`() {
+        val game = Game()
+        game.makeMove(0, 0)
+        assertEquals(GameState.InProgress, game.state)
+    }
 }
